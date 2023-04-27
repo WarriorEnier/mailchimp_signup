@@ -35,6 +35,7 @@ app.post("/", (req, res) => {
     ],
   };
   const jsonData = JSON.stringify(data);
+
   const url = `https://us14.api.mailchimp.com/3.0/lists/${audiId}`;
   const options = {
     method: "POST",
@@ -43,8 +44,7 @@ app.post("/", (req, res) => {
   const request = https.request(url, options, (response) => {
     response.on("data", (data) => {
       const resJson = JSON.parse(data);
-      
-      if (resJson.new_members && resJson.new_members.length > 0 && response.statusCode === 200) {
+      if (resJson.new_members.length > 0 && response.statusCode === 200) {
         res.sendFile(__dirname + "/success.html");
       } else {
         res.sendFile(__dirname + "/failure.html");
